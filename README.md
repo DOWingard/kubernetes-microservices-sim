@@ -2,6 +2,8 @@
 
 A complete implementation of Google's microservices-demo deployed on Kubernetes with traffic simulation, metrics collection, and visualization in Grafana.
 
+![Dashboard](dashboard.png)
+
 ## Project Overview
 
 This project demonstrates:
