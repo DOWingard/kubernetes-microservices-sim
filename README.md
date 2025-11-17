@@ -275,18 +275,3 @@ To restore from the database dump:
 ```bash
 kubectl exec -it statefulset/postgres -- psql -U postgres logs < microservices_demo.sql
 ```
-
-## Troubleshooting
-
-**Locust connection timeout to frontend**:
-- Frontend service may be slow to respond
-- Orders still get inserted to DB even on timeout
-- Check frontend pod status: `kubectl get pods -l app=frontend`
-
-**PostgreSQL connection errors**:
-- Ensure port-forward is active: `kubectl port-forward svc/postgres 5432:5432`
-- Verify credentials in scripts match deployment
-
-**Grafana no data**:
-- Ensure PostgreSQL datasource is configured (Settings → Data Sources)
-- Run simulation at least once: `python run_al
