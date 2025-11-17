@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "logs"
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  clusterIP: None
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init
+  namespace: default
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: postgres-init
+        image: postgres:15-alpine
+        command:
+          - sh
+          - -c
+          - |
+            PGPASSWORD=postgres psql -h postgres -U postgres -d logs -c "
+            CREATE TABLE IF NOT EXISTS application_logs (
+              id SERIAL PRIMARY KEY,
+              timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              service_name VARCHAR(255),
+              log_level VARCHAR(50),
+              message TEXT,
+              pod_name VARCHAR(255),
+              namespace VARCHAR(255)
+            );
+            CREATE INDEX idx_timestamp ON application_logs(timestamp);
+            CREATE INDEX idx_service ON application_logs(service_name);
+            "
+        env:
+        - name: PGPASSWORD
+          value: "postgres"
