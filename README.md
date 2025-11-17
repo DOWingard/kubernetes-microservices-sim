@@ -45,10 +45,6 @@ Grafana Dashboard
 - Default credentials: admin/admin
 - PostgreSQL datasource pre-configured
 
-**openobserve-deployment.yaml**
-- OpenObserve APM tool (optional, for future expansion)
-- Supports OTLP metrics/logs/traces
-
 ### Scripts
 
 **run_all.py**
