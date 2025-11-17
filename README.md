@@ -4,16 +4,6 @@ A complete implementation of Google's microservices-demo deployed on Kubernetes 
 
 ![Dashboard](dashboard.png)
 
-## Project Overview
-
-This project demonstrates:
-- ✅ **Kubernetes Deployment**: 12+ microservices running on Minikube
-- ✅ **Traffic Simulation**: Locust generating realistic user load
-- ✅ **Metrics Collection**: Automated Kubernetes cluster health monitoring
-- ✅ **Data Persistence**: PostgreSQL storing orders and metrics
-- ✅ **Observability**: Grafana dashboards visualizing all data
-- ✅ **Order Processing**: Full e-commerce workflow with database persistence
-
 ## Architecture
 
 ```
