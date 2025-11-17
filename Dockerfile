@@ -13,12 +13,12 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/truste
 # Set working directory
 WORKDIR /app
 
-# Expose ngrok’s local web UI
+# Expose ngrok’s local web UI (optional)
 EXPOSE 4040
 
-# Environment variables
+# Environment variables (Railway will override these)
 ENV NGROK_AUTHTOKEN=""
-ENV SERVICE_PORT=8080
+ENV SERVICE_PORT=3000
 
 # Start ngrok tunnel
-CMD sh -c "ngrok config add-authtoken $NGROK_AUTHTOKEN && ngrok http $SERVICE_PORT --log=stdout"
+CMD sh -c "ngrok authtoken $NGROK_AUTHTOKEN && ngrok http $SERVICE_PORT --log=stdout"
