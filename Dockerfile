@@ -10,11 +10,11 @@ RUN wget -q -O - https://packages.grafana.com/gpg.key | apt-key add - \
     && apt-get update \
     && apt-get install -y grafana
 
+# Create a directory for persistent data
+RUN mkdir -p /var/lib/grafana
+
 # Expose Grafana port
 EXPOSE 3000
 
-# Environment variables (optional: Railway will override if needed)
-ENV GF_SERVER_HTTP_PORT=3000
-
-# Start Grafana in the foreground
-CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini", "--packaging=deb", "web"]
+# Set Grafana to run in foreground (so container stays alive)
+CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini", "--packaging=deb", "--pidfile=/var/run/grafana.pid", "--console", "foreground"]
