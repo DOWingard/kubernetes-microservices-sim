@@ -10,17 +10,12 @@ RUN wget -q -O - https://packages.grafana.com/gpg.key | apt-key add - \
     && apt-get update \
     && apt-get install -y grafana
 
-# Create persistent data directory
-RUN mkdir -p /var/lib/grafana
-
 # Expose Grafana port
 EXPOSE 3000
 
-# Environment variables for admin login (can be overridden in Railway dashboard)
+# Environment variables (set these in Railway for admin login)
 ENV GF_SECURITY_ADMIN_USER=admin
-ENV GF_SECURITY_ADMIN_PASSWORD=drdroidassignment
-ENV GF_PATHS_DATA=/var/lib/grafana
-ENV GF_SERVER_HTTP_PORT=3000
+ENV GF_SECURITY_ADMIN_PASSWORD=admin
 
-# Start Grafana in foreground
-CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini", "--packaging=deb", "--console", "foreground"]
+# Start Grafana
+CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini", "--packaging=deb"]
