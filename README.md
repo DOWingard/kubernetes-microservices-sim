@@ -2,10 +2,6 @@
 
 A complete implementation of Google's microservices-demo deployed on Kubernetes with traffic simulation, metrics collection, and visualization in Grafana.
 
-**Current link**
-
-```https://regulation-subjective-badly-roster.trycloudflare.com/public-dashboards/c0e33a3d91e347568f8c7a714cf32d35```
-
 
 
 ![Dashboard](dashboard.png)
