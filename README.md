@@ -1,4 +1,4 @@
-# Dr Droid - Microservices Demo with Kubernetes & Observability
+# Microservices Demo with Kubernetes & Observability
 
 A complete implementation of Google's microservices-demo deployed on Kubernetes with traffic simulation, metrics collection, and visualization in Grafana.
 
